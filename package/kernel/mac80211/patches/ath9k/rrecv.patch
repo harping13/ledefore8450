@@ -1,0 +1,23 @@
+--- a/drivers/net/wireless/ath/ath9k/recv.c
++++ b/drivers/net/wireless/ath/ath9k/recv.c
+@@ -406,9 +406,17 @@
+ 	else if (sc->sc_ah->opmode != NL80211_IFTYPE_OCB)
+ 		rfilt |= ATH9K_RX_FILTER_BEACON;
+ 
+-	if ((sc->sc_ah->opmode == NL80211_IFTYPE_AP) ||
+-	    (sc->cur_chan->rxfilter & FIF_PSPOLL))
+-		rfilt |= ATH9K_RX_FILTER_PSPOLL;
++//	if ((sc->sc_ah->opmode == NL80211_IFTYPE_AP) ||
++	//    (sc->cur_chan->rxfilter & FIF_PSPOLL))
++	//	rfilt |= ATH9K_RX_FILTER_PSPOLL;
++   
++   
++   if (sc->sc_ah->opmode == NL80211_IFTYPE_AP){
++		  rfilt |= ATH9K_RX_FILTER_PSPOLL;
++	    if(sc->cur_chan->rxfilter & FIF_PROBE_REQ)
++		    rfilt |= FIF_PROBE_REQ;
++		}
++
+ 
+ 	if (sc->cur_chandef.width != NL80211_CHAN_WIDTH_20_NOHT)
+ 		rfilt |= ATH9K_RX_FILTER_COMP_BAR;
